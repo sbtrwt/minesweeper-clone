@@ -8,5 +8,9 @@ int main()
 	GameManager gm;
 	gm.chooseLevel();
 	gm.play();
+
+	
+	
+	system("pause");
 	return 0;
 }
