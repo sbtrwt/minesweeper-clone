@@ -10,9 +10,9 @@ using namespace std;
 
 void GameManager::play()
 {
-	//init();
+	
 	bool isGameOver = false;
-	int moves = 0;
+	
 	bool isFirstmove = true;
 	do {
 		printBoard(false);
@@ -21,20 +21,21 @@ void GameManager::play()
 			isFirstmove = false;
 			init();
 		}
-		mark_board[row][col] = true;
-
-		moves++;
+	
+		setVisible(row, col);
+		
 		if (board[row][col] == '*') {
 			isGameOver = true;
+			printBoard(true);
 			cout << "\n Mine hits ......Game Over try next time....\n";
 		}
-		if (moves == MAX_MOVE) {
+		if (getMarkCount() == 0) {
 			isGameOver = true;
 			cout << "\n You won \n";
 		}
 	} while (!isGameOver);
 
-
+	
 
 }
 
@@ -74,36 +75,31 @@ void GameManager::printBoard(bool showMines)
 	cout << "\n";
 	for (int i = 0; i < side; i++) {
 		cout << "\n\t\t\t\t\t\t\t-";
-		
+
 		for (int k = 0; k < side;k++)cout << "--";
 		cout << "\n\t\t\t\t\t\t" << i;
 		cout << "\t|";
-		
+
 		for (int j = 0; j < side; j++) {
 			if (board[i][j] == '*')
 				cout << (showMines ? board[i][j] : ' ') << "|";
-			else if (true  || mark_board[i][j]) {
+			else if (mark_board[i][j]) {
 
 				int res = getAdjMinesCount(i, j);
-				if (res == 0) {
-					cout << " |";
-				}
-				else {
-					cout << res<< "|";
-				}
 				
-				
+
+				cout << res << "|";
 			}
 			else {
 				cout << " |";
 			}
 		}
-		
+
 	}
 	cout << "\n\t\t\t\t\t\t\t-";
 	for (int k = 0; k < side;k++)cout << "--";
 
-	
+
 }
 
 void GameManager::chooseLevel()
@@ -160,4 +156,34 @@ bool GameManager::isValidCell(int row, int col)
 {
 
 	return (0 <= row && row < side) && (0 <= col && col < side);
+}
+
+void GameManager::setVisible(int row, int col)
+{
+	if (this->mark_board[row][col] || !this->isValidCell(row, col)  )
+		return;
+
+	if (this->isValidCell(row, col)) {
+		this->mark_board[row][col] = true;
+
+		if (getAdjMinesCount(row, col) == 0)
+		{
+			setVisible(row, col - 1);
+			setVisible(row, col + 1);
+			setVisible(row - 1, col);
+			setVisible(row + 1, col);
+		
+		}
+	}
+}
+
+int GameManager::getMarkCount()
+{
+	int count = 0;
+	for (int i = 0; i < side;i++) {
+		for (int j = 0; j < side;j++) {
+			if (mark_board[i][j])count++;
+		}
+	}
+	return (side*side - count - mines);
 }

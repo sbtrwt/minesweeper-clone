@@ -26,5 +26,7 @@ public :
 	void getInput();
 	int getAdjMinesCount(int row, int col);
 	bool isValidCell(int row, int col);
+	void setVisible(int row, int col);
+	int getMarkCount();
 };
 
