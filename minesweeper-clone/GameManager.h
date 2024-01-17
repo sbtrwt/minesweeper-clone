@@ -11,7 +11,7 @@ private:
 	bool mark_board[MAX_SIDE][MAX_SIDE];
 	int side, mines;
 	int row, col;
-
+	int size_type;
 public :
 	GameManager() {
 		memset(board, ' ', sizeof(board));
