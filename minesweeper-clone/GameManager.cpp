@@ -10,9 +10,9 @@ using namespace std;
 
 void GameManager::play()
 {
-	
+
 	bool isGameOver = false;
-	
+
 	bool isFirstmove = true;
 	do {
 		printBoard(false);
@@ -21,9 +21,9 @@ void GameManager::play()
 			isFirstmove = false;
 			init();
 		}
-	
+
 		setVisible(row, col);
-		
+
 		if (board[row][col] == '*') {
 			isGameOver = true;
 			printBoard(true);
@@ -31,11 +31,12 @@ void GameManager::play()
 		}
 		if (getMarkCount() == 0) {
 			isGameOver = true;
+			printBoard(true);
 			cout << "\n You won \n";
 		}
 	} while (!isGameOver);
 
-	
+
 
 }
 
@@ -48,14 +49,11 @@ void GameManager::init()
 			int x = random / side;
 			int y = random % side;
 
-
-
 			if (board[x][y] != '*' && x != row && y != col)
 			{
 				board[x][y] = '*';
 				break;
 			}
-
 
 		} while (true);
 
@@ -70,9 +68,12 @@ void GameManager::clear()
 void GameManager::printBoard(bool showMines)
 {
 	clear();
-	cout << "\n\t\t\t\t\t\t\t ";
-	for (int k = 0; k < side;k++)cout << k << " ";
-	cout << "\n";
+	if (size_type == 1)
+	{
+		cout << "\n\t\t\t\t\t\t\t ";
+		for (int k = 0; k < side;k++)cout << k << " ";
+		cout << "\n";
+	}
 	for (int i = 0; i < side; i++) {
 		cout << "\n\t\t\t\t\t\t\t-";
 
@@ -84,10 +85,7 @@ void GameManager::printBoard(bool showMines)
 			if (board[i][j] == '*')
 				cout << (showMines ? board[i][j] : ' ') << "|";
 			else if (mark_board[i][j]) {
-
 				int res = getAdjMinesCount(i, j);
-				
-
 				cout << res << "|";
 			}
 			else {
@@ -105,25 +103,31 @@ void GameManager::printBoard(bool showMines)
 void GameManager::chooseLevel()
 {
 	clear();
-	cout << "\t\t\t\t\t\t\tMinesweeper" << endl;
+	cout << "\t\t\t\t\t\t\t-----------------------" << endl;
+	cout << "\t\t\t\t\t\t\t|     Minesweeper     |" << endl;
+	cout << "\t\t\t\t\t\t\t-----------------------" << endl;
 	cout << "\t\t\t\t\t\t\tChoose difficulty level : " << endl;
 	cout << "\n\t\t\t\t\t\t\t 1. Beginner \n\t\t\t\t\t\t\t 2. Intermediate \n\t\t\t\t\t\t\t 3. Advanced " << endl;
 	int choice;
 	cin >> choice;
 	switch (choice) {
 	case 1:
+		size_type = 1;
 		side = 9;
 		mines = 10;
 		break;
 	case 2:
+		size_type = 2;
 		side = 16;
 		mines = 40;
 		break;
 	case 3:
+		size_type = 3;
 		side = 24;
 		mines = 99;
 		break;
 	default:
+		size_type = 1;
 		side = 9;
 		mines = 10;
 	}
@@ -154,13 +158,12 @@ int GameManager::getAdjMinesCount(int row, int col)
 
 bool GameManager::isValidCell(int row, int col)
 {
-
 	return (0 <= row && row < side) && (0 <= col && col < side);
 }
 
 void GameManager::setVisible(int row, int col)
 {
-	if (this->mark_board[row][col] || !this->isValidCell(row, col)  )
+	if (this->mark_board[row][col] || !this->isValidCell(row, col))
 		return;
 
 	if (this->isValidCell(row, col)) {
@@ -172,7 +175,7 @@ void GameManager::setVisible(int row, int col)
 			setVisible(row, col + 1);
 			setVisible(row - 1, col);
 			setVisible(row + 1, col);
-		
+
 		}
 	}
 }
@@ -185,5 +188,5 @@ int GameManager::getMarkCount()
 			if (mark_board[i][j])count++;
 		}
 	}
-	return (side*side - count - mines);
+	return (side * side - count - mines);
 }
