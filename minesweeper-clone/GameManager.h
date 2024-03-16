@@ -1,6 +1,6 @@
 #pragma once
-#define MAX_MINE 99
-#define MAX_SIDE 25
+#include "Board.h"
+
 #define MAX_MOVE 526 
 
 
