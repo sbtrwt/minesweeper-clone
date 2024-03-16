@@ -4,6 +4,9 @@ using namespace std;
 
 Tile::Tile()
 {
+	m_state = TileState::Hidden;
+	m_type = TileType::Empty;
+	m_adjacentBombCount = 0;
 }
 
 Tile::~Tile()
@@ -56,4 +59,14 @@ void Tile::print()
 	else {
 		cout << " |";
 	}
+}
+
+bool Tile::isRevealed()
+{
+	return m_state == TileState::Revealed;
+}
+
+void Tile::setadjBombCount(int count)
+{
+	m_adjacentBombCount = count;
 }

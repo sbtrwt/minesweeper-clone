@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "Position.h"
 
 
 #define MAX_MINE 99
@@ -28,7 +29,10 @@ class Board
 		void init();
 		void clear();
 		void print();
-		void SetBoardSize(BoardSize);
-
+		void setBoardSize(BoardSize);
+		void processInput(Position input);
+		void revealTile(Position input);
+		bool isValidPosition(Position position) const;
+		int getAdjMinesCount(Position input);
 };
 

@@ -17,8 +17,28 @@ void GameOwner::play()
 	bool isGameOver = false;
 
 	bool isFirstmove = true;
-	m_board.print();
+	
+	do {
+		m_board.print();
+		getInput();
+		if (isFirstmove) {
+			isFirstmove = false;
+			m_board.init();
+		}
+		m_board.processInput(m_input);
+		//setVisible(row, col);
 
+		/*if (board[row][col] == '*') {
+			isGameOver = true;
+			printBoard(true);
+			cout << "\n Mine hits ......Game Over try next time....\n";
+		}
+		if (getMarkCount() == 0) {
+			isGameOver = true;
+			printBoard(true);
+			cout << "\n You won \n";
+		}*/
+	} while (!isGameOver);
 }
 void GameOwner::clear()
 {
@@ -37,22 +57,22 @@ void GameOwner::chooseLevel()
 	switch (choice) {
 	case 1:
 		m_board = Board(9, 10);
-		m_board.SetBoardSize(BoardSize::Small);
+		m_board.setBoardSize(BoardSize::Small);
 		
 		break;
 	case 2:
 		m_board = Board(16, 40);
-		m_board.SetBoardSize(BoardSize::Medium);
+		m_board.setBoardSize(BoardSize::Medium);
 		
 		break;
 	case 3:
 		m_board = Board(24, 99);
-		m_board.SetBoardSize(BoardSize::Large);
+		m_board.setBoardSize(BoardSize::Large);
 		
 		break;
 	default:
 		m_board = Board(9, 10);
-		m_board.SetBoardSize(BoardSize::Small);
+		m_board.setBoardSize(BoardSize::Small);
 	}
 }
 

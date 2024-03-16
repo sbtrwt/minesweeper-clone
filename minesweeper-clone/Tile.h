@@ -36,5 +36,7 @@ public:
     bool isBomb();
     bool isEmpty();
     void print();
+    bool isRevealed();
+    void setadjBombCount(int count);
 };
 
