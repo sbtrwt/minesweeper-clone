@@ -17,16 +17,16 @@ Board::~Board()
 {
 }
 
-void Board::init()
+void Board::init(Position seedPosition)
 {
-	//memset(board, ' ', sizeof(board));
+	
 	for (int i = 0; i < m_mines; i++) {
 		do {
 			int random = rand() % (m_side * m_side);
 			int x = random / m_side;
 			int y = random % m_side;
 
-			if (!m_Tiles[x][y].isBomb()  && x != m_row && y != m_col)
+			if (!m_Tiles[x][y].isBomb()  && x != seedPosition.x && y != seedPosition.y)
 			{
 				m_Tiles[x][y].setTileType(TileType::Bomb);
 				break;
@@ -46,12 +46,12 @@ void Board::clear()
 void Board::print()
 {
 	clear();
-	/*if (size_type == 1)
+	if (m_boardSize == BoardSize::Small)
 	{
 		cout << "\n\t\t\t\t\t\t\t ";
 		for (int k = 0; k < m_side;k++)cout << k << " ";
 		cout << "\n";
-	}*/
+	}
 	for (int i = 0; i < m_side; i++) {
 		cout << "\n\t\t\t\t\t\t\t-";
 
@@ -84,6 +84,25 @@ bool Board::isValidPosition(Position position) const
 	return (0 <= position.x && position.x < m_side) && (0 <= position.y && position.y < m_side);
 }
 
+int Board::getHiddenTile()
+{
+	return m_side * m_side - m_revealedTileCount - m_mines;
+}
+
+bool Board::isMineTile(Position position)
+{
+	return m_Tiles[position.x][position.y].isBomb();
+}
+
+void Board::setStateAllTiles(TileState state)
+{
+	for (int i = 0; i < m_side; i++) {
+		for (int j = 0; j < m_side; j++) {
+			m_Tiles[i][j].setTileState(state);
+		}
+	}
+}
+
 void Board::revealTile(Position input)
 {
 	if (this->m_Tiles[input.x][input.y].isRevealed() || !this->isValidPosition(input))
@@ -91,6 +110,7 @@ void Board::revealTile(Position input)
 
 	if (this->isValidPosition(input)) {
 		this->m_Tiles[input.x][input.y].setTileState(TileState::Revealed);
+		m_revealedTileCount++;
 		int count = getAdjMinesCount(input);
 		this->m_Tiles[input.x][input.y].setadjBombCount(count);
 		if (count == 0)
@@ -99,7 +119,6 @@ void Board::revealTile(Position input)
 			revealTile(Position(input.x, input.y + 1));
 			revealTile(Position(input.x-1, input.y ));
 			revealTile(Position(input.x+1, input.y ));
-
 		}
 	}
 }
@@ -119,3 +138,4 @@ int Board::getAdjMinesCount(Position input)
 
 	return result;
 }
+

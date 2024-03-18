@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameOwner.cpp" />
     <ClCompile Include="Minesweeper-clone.cpp" />
     <ClCompile Include="Position.cpp" />
@@ -148,7 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameOwner.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Tile.h" />

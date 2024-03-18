@@ -22,8 +22,7 @@ private:
 
     int m_adjacentBombCount;
 
-    //Functions
-    void DisplayRevealed();
+ 
 public:
     // Constructor and destructor
     Tile();

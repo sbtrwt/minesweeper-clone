@@ -23,21 +23,23 @@ void GameOwner::play()
 		getInput();
 		if (isFirstmove) {
 			isFirstmove = false;
-			m_board.init();
+			m_board.init(m_input);
 		}
 		m_board.processInput(m_input);
-		//setVisible(row, col);
+		
 
-		/*if (board[row][col] == '*') {
+		if (m_board.isMineTile(m_input))
+		{ 
 			isGameOver = true;
-			printBoard(true);
+			m_board.setStateAllTiles(TileState::Revealed);
+			m_board.print();
 			cout << "\n Mine hits ......Game Over try next time....\n";
 		}
-		if (getMarkCount() == 0) {
+		if (m_board.getHiddenTile() == 0) {
 			isGameOver = true;
-			printBoard(true);
+			m_board.print();
 			cout << "\n You won \n";
-		}*/
+		}
 	} while (!isGameOver);
 }
 void GameOwner::clear()

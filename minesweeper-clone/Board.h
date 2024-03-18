@@ -21,12 +21,13 @@ class Board
 		Tile m_Tiles[MAX_SIDE][MAX_SIDE];
 		int m_row, m_col;
 		int m_side, m_mines;
+		int m_revealedTileCount;
 	public:
 		Board();
 		Board(int side, int mine);
 		
 		virtual ~Board();
-		void init();
+		void init(Position seedPosition);
 		void clear();
 		void print();
 		void setBoardSize(BoardSize);
@@ -34,5 +35,8 @@ class Board
 		void revealTile(Position input);
 		bool isValidPosition(Position position) const;
 		int getAdjMinesCount(Position input);
+		int getHiddenTile();
+		bool isMineTile(Position position);
+		void setStateAllTiles(TileState);
 };
 

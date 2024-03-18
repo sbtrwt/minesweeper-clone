@@ -6,10 +6,6 @@
 
 int main()
 {
-	//GameManager gm;
-	//gm.chooseLevel();
-	//gm.play();
-
 	GameOwner game;
 	game.chooseLevel();
 	game.play();
